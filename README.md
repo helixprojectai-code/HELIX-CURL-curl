@@ -5,7 +5,7 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Trefoil Status](https://img.shields.io/badge/trefoil-LOCKED%20at%20γ%3C0.17-success)](https://github.com/helixprojectai-code/HELIX-CURL-curl)
 
-![The 0.17 Threshold — Where Trefoil Phase-Lock Emerges](assists/the017.png)
+![The 0.17 Threshold — Where Trefoil Phase-Lock Emerges](assests/the017.png)
 
 > *"The three-body problem isn't unsolvable—it's just asking the wrong question."*
 
