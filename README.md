@@ -5,7 +5,7 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Trefoil Status](https://img.shields.io/badge/trefoil-LOCKED%20at%20γ%3C0.17-success)](https://github.com/helixprojectai-code/HELIX-CURL-curl)
 
-![The 0.17 Threshold — Where Trefoil Phase-Lock Emerges](assists/the017.png)
+![The 0.17 Threshold — Where Trefoil Phase-Lock Emerges](assets/the017.png)
 
 > *"The three-body problem isn't unsolvable—it's just asking the wrong question."*
 
@@ -82,7 +82,7 @@ Empirical results from a 9,876-call tournament demonstrate this inversion: **top
   title = {CURL curl: A Topological Shortcut to the Three-Body Problem},
   year = {2026},
   publisher = {Zenodo},
-  doi = {10.5281/zenodo.XXXXXXX},
+  doi = {10.5281/zenodo.19433061},
   url = {https://github.com/helixprojectai-code/HELIX-CURL-curl}
 }
 ```
