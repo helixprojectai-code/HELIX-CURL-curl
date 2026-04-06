@@ -36,11 +36,12 @@ python3 curl_curl_prototype.py
 
 ```
 HELIX-CURL-curl/
-├── assists/                  # Visualizations and figures
+├── assets/                   # Visualizations and figures
 │   ├── the017.png           # The 0.17 threshold visualization
 │   └── curl_curl_trefoil.png # Trefoil orbit diagram
 ├── docs/                     # Documentation and whitepapers
 │   └── CURL_curl_Whitepaper_v1.md
+├── OPS-001-PCSP.md          # Proactive Cycle-Saving Protocol
 ├── curl_curl_prototype.py    # Executable Python implementation
 ├── LICENSE                   # Apache 2.0
 └── README.md                 # This file
