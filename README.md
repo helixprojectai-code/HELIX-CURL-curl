@@ -82,7 +82,7 @@ Empirical results from a 9,876-call tournament demonstrate this inversion: **top
   title = {CURL curl: A Topological Shortcut to the Three-Body Problem},
   year = {2026},
   publisher = {Zenodo},
-  doi = {10.5281/zenodo.XXXXXXX},
+  doi = {10.5281/zenodo.19433061},
   url = {https://github.com/helixprojectai-code/HELIX-CURL-curl}
 }
 ```
