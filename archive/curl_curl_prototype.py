@@ -193,7 +193,7 @@ def simulate_threshold():
     ax2.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('/root/.openclaw/workspace/curl_curl_trefoil.png', dpi=150, bbox_inches='tight')
+    plt.savefig('curl_curl_trefoil_output.png', dpi=150, bbox_inches='tight')
     print("\nPlot saved to: curl_curl_trefoil.png")
     
     # Analysis
