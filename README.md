@@ -5,7 +5,7 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Trefoil Status](https://img.shields.io/badge/trefoil-ROTATES%20at%20γ%3D1%2F3-success)](https://github.com/helixprojectai-code/HELIX-CURL-curl)
 
-![The Complex Plane — Where the Trefoil Faces You](assists/curl_curl_v2_5_output.png)
+![The Complex Plane — Where the Trefoil Faces You](assests/curl_curl_v2_5_output.png)
 
 > *"The three-body problem isn't unsolvable — it's a rotation. γ = 1/3 is where it faces you."*
 
