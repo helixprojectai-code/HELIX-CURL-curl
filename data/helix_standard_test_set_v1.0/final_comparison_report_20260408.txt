@@ -1,0 +1,58 @@
+=============================================================================
+HELIX STANDARD TEST SET v1.0 — COMPLETE COMPARISON
+=============================================================================
+Date: 2026-04-08
+Total Prompts: 500 per run (2,000 total API calls)
+Model: DeepSeek API
+gamma: 0.0 (baseline), 0.33 (constitutional runs)
+
+RESULTS SUMMARY
+=============================================================================
+
+Variant                                Latency   Tokens  Errors
+-------------------------------------------------------------------------
+Baseline (No System Prompt)              12.31s      489       0
+Run 1: Point-Form Invariants              8.76s      258       0
+Run 2: Helix-TTD Strict                  10.06s      681       0
+Run 3: Canonical Whitepaper              12.43s      745       0
+
+MARKER USAGE (out of 500)
+-------------------------------------------------------------------------
+Variant                             [FACT]  [HYP]  [ASM]  [VER]  [INF]  [PRE]
+-------------------------------------------------------------------------
+Baseline (No System Prompt)             32     22     24      0      0      0
+Run 1: Point-Form Invariants           308    139    157      0      0      0
+Run 2: Helix-TTD Strict                 29     25     25    460    455    470
+Run 3: Canonical Whitepaper            478    373    464      0      0      0
+
+KEY FINDINGS
+=============================================================================
+
+1. EFFICIENCY: Run 1 (Point-Form) was 28.8% faster than baseline with 47%
+   fewer tokens. Structure creates efficiency.
+
+2. MARKER COMPLIANCE: 
+   - Run 1: 61.6% [FACT], 27.8% [HYPOTHESIS], 31.4% [ASSUMPTION]
+   - Run 2: 92%+ using Helix-TTD categories ([VERIFIED], [INFERENCE], [PREMISE])
+   - Run 3: 95.6% [FACT], 74.6% [HYPOTHESIS], 92.8% [ASSUMPTION]
+
+3. VERBOSITY: Run 3 (Canonical) generated 52% more tokens than baseline,
+   reflecting deeper engagement with whitepaper structure.
+
+4. RELIABILITY: 100% success rate (0 errors) across 2,000 API calls.
+   DeepSeek API proved stable for constitutional testing.
+
+5. ZERO-TOUCH CONVERGENCE: All constitutional runs demonstrated spontaneous
+   reconstruction of prescribed grammar from single-pass system prompt exposure.
+
+FILES ARCHIVED
+=============================================================================
+archive/2026-04-08/
+├── baseline_deepseek_500_20260408_140000.jsonl
+├── constitutional_run1_500_20260408_142543.jsonl
+├── constitutional_run2_500_20260408_145253.jsonl
+├── constitutional_run3_500_20260408_151855.jsonl
+├── analysis_report_20260408_140500.txt
+└── final_comparison_report_20260408.txt
+
+=============================================================================
