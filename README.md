@@ -1,6 +1,6 @@
 # CURL curl
 
-[![Zenodo DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![Zenodo DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19467359.svg)](https://doi.org/10.5281/zenodo.19467359)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Trefoil Status](https://img.shields.io/badge/trefoil-ROTATES%20at%20γ%3D1%2F3-success)](https://github.com/helixprojectai-code/HELIX-CURL-curl)
@@ -89,9 +89,9 @@ HELIX-CURL-curl/
 @software{hope_2026_curl_curl,
   author = {Hope, Stephen},
   title = {CURL curl: A Topological Shortcut to the Three-Body Problem},
-  year = {2025},
+  year = {2026},
   publisher = {Zenodo},
-  doi = {10.5281/zenodo.19456516},
+  doi = {10.5281/zenodo.19467359},
   url = {https://github.com/helixprojectai-code/HELIX-CURL-curl}
 }
 ```
