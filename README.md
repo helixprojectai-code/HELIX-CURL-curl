@@ -1,4 +1,4 @@
-# CURL curl: Topological Shortcut to the Three-Body Problem
+# CURL curl
 
 [![Zenodo DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -7,19 +7,21 @@
 
 ![The Complex Plane — Where the Trefoil Faces You](assets/curl_curl_v2_5_output.png)
 
-> *"The three-body problem isn't unsolvable — it's a rotation. γ = 1/3 is where it faces you."*
+## **Topological Shortcut to the Three-Body Problem**
 
----
+## "The three-body problem isn't unsolvable — it's a rotation.  
 
-## Abstract
+## γ = 1/3 is where the trefoil faces you."
 
-The three-body problem has remained unsolved in closed form for over three centuries, not due to mathematical deficiency, but due to an epistemological error: the attempt to track linear positions rather than rotational vorticity. This paper presents **CURL curl** — a topological operator that measures the curl of the curl (∇ × ∇ × H) of a constitutional Hamiltonian field.
+### Abstract
 
-The shear parameter γ does not degrade the trefoil orbit — it **rotates the complex trace** through the complex plane at exactly **3π/4 radians per unit γ**, on a circle of constant magnitude |Tr| = 4 (variation < 10⁻¹⁵). The critical threshold **γ = 1/3** is where the trace first crosses the real axis, producing the exact algebraic value **Tr/8 = −1/2**.
+The three-body problem has resisted closed-form solution for over 300 years not due to mathematical deficiency, but due to an **epistemological error**: attempting to track linear positions instead of rotational vorticity.
 
----
+**CURL curl** is a topological operator (∇ × (∇ × H)) applied to a constitutional Hamiltonian field. The shear parameter **γ** does not degrade the trefoil orbit — it **rotates** the complex trace through the complex plane at exactly **3π/4 radians per unit γ** on a circle of constant magnitude |Tr| = 4 (variation < 10⁻¹⁵).
 
-## Quick Start
+At **γ = 1/3**, the trace crosses the real axis with the exact algebraic value **Tr/8 = −1/2** (odd powers) or **+1** (even powers).
+
+### Quick Start
 
 ```bash
 git clone https://github.com/helixprojectai-code/HELIX-CURL-curl.git
@@ -28,127 +30,81 @@ pip install numpy matplotlib
 python curl_curl_prototype_v2_5.py
 ```
 
----
+### Key Results (Verified to Machine Epsilon)
 
-## Key Results
-
-All values verified to machine epsilon (< 10⁻¹⁵):
-
-| Discovery | Value | Precision |
-|-----------|-------|-----------|
-| Trace magnitude |Tr| | **Exactly 4** (constant across all γ) | Variation < 10⁻¹⁵ |
-| Phase rotation rate | **3π/4 per unit γ** (exactly linear) | Residual = 0 |
-| Threshold γ | **1/3** (emergent from prime geometry) | Diff = 9.1 × 10⁻⁷ |
-| Invariant at threshold | **−1/2** (exact) | Diff = 4.83 × 10⁻¹⁵ |
-| v1 threshold explained | 0.17 = (1/3) × 0.5 | Scaling artifact |
-
-### The Composition Law
-
-| Power | Baseline (γ=0) | Extremum (γ=1/3) | Threshold |
-|-------|-----------------|-------------------|-----------|
-| Trefoil¹ | −1/(2√2) | −1/2 | 1/3 |
-| Trefoil² | 0 | +1 | 1/3 |
-| Trefoil³ | +1/(2√2) | −1/2 | 1/3 |
-
-Baselines shift by +1/(2√2) per power. Extrema alternate −1/2 / +1. Threshold is invariant.
+| Discovery                    | Value                          | Precision                  |
+|-----------------------------|--------------------------------|----------------------------|
+| Trace magnitude             | Constant (|Tr| = 4 or 8)      | Variation < 10⁻¹⁵         |
+| Phase rotation rate         | 3π/4 per unit γ (exactly linear) | Residual = 0            |
+| Threshold γ                 | 1/3                            | Diff ≈ 9.1 × 10⁻⁷         |
+| Value at γ=1/3 (odd power)  | Tr/8 = −1/2                    | Diff ≈ 4.83 × 10⁻¹⁵       |
+| Value at γ=1/3 (even power) | Tr/8 = +1                      | Exact                      |
 
 ### The Complex Plane Discovery
 
-The γ sweep doesn't degrade the invariant — it **rotates the trace through the complex plane**:
+The γ sweep doesn't degrade the invariant — it **rotates** it:
 
-- At γ = 0: Tr/8 = −1/(2√2) + i/(2√2) — phase 3π/4
-- At γ = 1/3: Tr/8 = −1/2 + 0i — **trace hits the real axis**
-- All eigenvalues on the unit circle — the system is exactly unitary
+- At γ = 0: `Tr/8 = −1/(2√2) + i/(2√2)` (phase 3π/4)
+- At γ = 1/3: Trace hits the real axis exactly
+- All eigenvalues lie on the unit circle → system is exactly unitary
 
----
+### Composition Law
 
-## Repository Structure
+| Power       | Baseline (γ=0)     | Extremum (γ=1/3) | Threshold |
+|-------------|--------------------|------------------|---------|
+| Trefoil¹    | −1/(2√2)           | −1/2             | 1/3     |
+| Trefoil²    | 0                  | +1               | 1/3     |
+| Trefoil³    | +1/(2√2)           | −1/2             | 1/3     |
+| Trefoil⁴    | 0                  | +1               | 1/3     |
+
+### Repository Structure
 
 ```
 HELIX-CURL-curl/
-├── curl_curl_prototype_v2_5.py   # Live prototype — complex plane analysis
-├── archive/                       # Development history (v1 through v2.4)
-│   ├── curl_curl_prototype.py     # v1 Apache 2.0 baseline
-│   ├── curl_curl_prototype_v2.py  # v2 strand-aware correction
-│   ├── curl_curl_prototype_v2_1.py # v2.1 zoom + (2,5) diagonal
-│   ├── curl_curl_prototype_v2_2.py # v2.2 braid zoo
-│   ├── curl_curl_prototype_v2_3.py # v2.3 composition law
-│   └── curl_curl_prototype_v2_4.py # v2.4 loose ends
-├── assists/                       # Visualizations and figures
-│   ├── curl_curl_v2_5_output.png  # Definitive complex plane figure
-│   ├── the017.png                 # v1 threshold visualization
-│   └── ...                        # Intermediate outputs
-├── docs/                          # Documentation and whitepapers
-│   ├── CURL_curl_Whitepaper_v2.md # Current paper (v2.0)
-│   └── CURL_curl_Whitepaper_v1.md # Original paper (preserved)
-├── LICENSE                        # Apache 2.0
-└── README.md                      # This file
+├── curl_curl_prototype_v2_5.py          # Main prototype + complex plane visualization
+├── topological_governor.py              # Topological Governor demo (pulse + reset)
+├── assists/
+│   └── curl_curl_v2_5_output.png        # Definitive complex plane figure
+├── archive/                             # Previous versions (v1 → v2.4)
+├── docs/
+│   └── CURL_curl_Whitepaper_v2.md       # Full preprint
+├── LICENSE                              # Apache 2.0
+└── README.md
 ```
 
----
+### Version History
 
-## Version History
+**v2.0 (Current)**  
+- Strand-aware R-matrix (prime 5 integrated)  
+- Uniform γ scaling  
+- Discovery that γ **rotates** the trace instead of degrading it  
+- Threshold corrected from 0.17 → 1/3  
+- Composition law + master reset at Trefoil⁴ (γ=1/3)
 
-### v2.0 (Current)
-- **Strand-aware R-matrix**: Prime 5 enters the braid via σ₂(3,5)
-- **Uniform γ scaling**: Removed asymmetric 0.5 factor
-- **Complex trace discovery**: γ rotates the trace, doesn't degrade it
-- **Threshold corrected**: 1/3 (not 0.17)
-- **Composition law**: Trefoil^n follows algebraic progression
-- **All loose ends resolved**: imaginary part, phase factor, SWAP convention, normalization
+**v1.0** – Original Apache 2.0 baseline
 
-### v1.0 (Archived)
-- Original Apache 2.0 filing establishing CURL curl operator
-- Prime-indexed SU(2) rotations with primes (2, 3, 5)
-- Trefoil braid word σ₁σ₂σ₁
-- Baseline invariant −1/(2√2) at γ = 0
-- Threshold reported at γ = 0.17
-
----
-
-## The v1 → v2 Correction
-
-The v1 threshold of 0.17 was not wrong — it was the true threshold γ = 1/3 viewed through two compounding factors:
-
-1. **Asymmetric scaling**: v1 used γ × 0.5 on rotation angles
-2. **Single prime pair**: v1 used (2,3) for all crossings
-
-Correcting both reveals: 0.17 ≈ (1/3) × 0.5. The original result was geometrically correct, scaled by the parameterization.
-
----
-
-## Contributors
-
-- **Stephen Hope** — Conceptualization, theoretical framework, v1 prototype, tournament execution
-- **Amazon Q** (AWS) — Strand-aware correction, complex plane discovery, composition law, v2 prototypes
-- **KimiClaw** (Moonshot AI) — (2,5) diagonal hypothesis, analytical assistance
-- **Helix Commonwealth AI** — Verification, code review
-
----
-
-## Citation
+### Citation
 
 ```bibtex
-@software{hope_2025_curl_curl,
+@software{hope_2026_curl_curl,
   author = {Hope, Stephen},
   title = {CURL curl: A Topological Shortcut to the Three-Body Problem},
   year = {2025},
   publisher = {Zenodo},
-  doi = {10.5281/zenodo.XXXXXXX},
+  doi = {10.5281/zenodo.19456516},
   url = {https://github.com/helixprojectai-code/HELIX-CURL-curl}
 }
 ```
 
----
+### License
 
-## License
-
-Apache License 2.0 — See [LICENSE](LICENSE) for details.
+Apache License 2.0 — see [LICENSE](LICENSE) for details.
 
 ---
 
-*The trefoil doesn't untie. It rotates. γ = 1/3 is where it faces you.*
+**The trefoil doesn't untie. It rotates.**  
+**γ = 1/3 is where it faces you.**
 
-**Glory to the CURL curl. Glory to the trefoil. Glory to the field.** 🦉⚓🦆
-
-*Preprint v2.0 · Helix Commonwealth AI*
+Glory to the CURL curl.  
+Glory to the trefoil.  
+Glory to the field. 🦉⚓🦆

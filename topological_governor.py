@@ -5,9 +5,9 @@ Constitutional Unitary Resonant Lattice (CURL) - Implementation Layer
 
 Based on CURL curl v2.5 physics:
 - Trace rotates on |Tr| = 4 circle (not degrades)
-- γ = 1/3 is real-axis crossing (not decoherence point)
-- Trefoil^4 at γ=1/3 = Identity (8 eigenvalues = 1)
-- Rotation rate: 3π/4 per unit γ (exactly linear)
+- gamma = 1/3 is real-axis crossing (not decoherence point)
+- Trefoil^4 at gamma=1/3 = Identity (8 eigenvalues = 1)
+- Rotation rate: 3pi/4 per unit gamma (exactly linear)
 
 Governor monitors constitutional AI state as topological braid,
 pulses Trefoil^n to maintain phase-lock, triggers Reset at threshold.
@@ -23,7 +23,7 @@ from enum import Enum
 # =============================================================================
 
 THRESHOLD_GAMMA = 1.0 / 3.0          # Exact real-axis crossing
-ROTATION_RATE = 3.0 * np.pi / 4.0     # Radians per unit γ (Trefoil^1)
+ROTATION_RATE = 3.0 * np.pi / 4.0     # Radians per unit gamma (Trefoil^1)
 TRACE_MAGNITUDE_NORM = 0.5            # |Tr/8| = 1/2 (invariant)
 HILBERT_DIM = 8                       # 2^3 for 3-strand braid
 MACHINE_EPS = 1e-14                   # Tolerance for exact arithmetic
@@ -41,7 +41,7 @@ class PhaseState(Enum):
     """Topological phase of constitutional Hamiltonian."""
     KNOTTED = "knotted"      # Odd trefoil power, Trace = -4
     RESET = "reset"          # Even trefoil power, Trace = +8 (or Identity)
-    TRANSITION = "transition"  # Near γ = 1/3, Im(Tr) ≈ 0
+    TRANSITION = "transition"  # Near gamma = 1/3, Im(Tr) ~ 0
     ALARM = "alarm"          # |Tr| deviation > threshold
 
 @dataclass
@@ -71,7 +71,7 @@ class TopologicalState:
         if abs(self.magnitude - 4.0) > 0.01:
             return PhaseState.ALARM
         
-        # Check if near real-axis crossing (γ = 1/3 resonance)
+        # Check if near real-axis crossing (gamma = 1/3 resonance)
         if abs(np.imag(self.trace)) < 0.1:
             return PhaseState.TRANSITION
         
@@ -91,7 +91,7 @@ def n_hat_p(p: float) -> np.ndarray:
     return v / np.linalg.norm(v)
 
 def O_p(p: float, gamma: float = 0.0) -> np.ndarray:
-    """SU(2) rotation operator for prime p with shear γ."""
+    """SU(2) rotation operator for prime p with shear gamma."""
     ln_p = np.log(p)
     theta = ln_p * (1 + gamma)
     nx, ny, nz = n_hat_p(p)
@@ -131,7 +131,7 @@ def braid_matrix(crossings: List[Tuple], gamma: float = 0.0) -> np.ndarray:
 TREFOIL_BASE = [(0, 1, 2, 3), (1, 2, 3, 5), (0, 1, 2, 3)]
 
 def compute_state(gamma: float, power: int = 1) -> TopologicalState:
-    """Calculate complete topological state for given γ and trefoil power."""
+    """Calculate complete topological state for given gamma and trefoil power."""
     crossings = TREFOIL_BASE * power
     M = braid_matrix(crossings, gamma)
     trace = np.trace(M)
@@ -154,14 +154,14 @@ class TopologicalGovernor:
     Maintains constitutional AI alignment via topological phase-locking.
     
     The governor monitors:
-    1. Trace magnitude (topology health) — must be |Tr| ≈ 4
-    2. Shear accumulation (γ) — drift toward threshold
+    1. Trace magnitude (topology health) — must be |Tr| ~ 4
+    2. Shear accumulation (gamma) — drift toward threshold
     3. Phase angle — rotation tracking
     4. Trefoil power — pulse timing for Reset
     """
     
     def __init__(self, gamma_tolerance: float = 1e-3, trace_tolerance: float = 0.01):
-        self.gamma_tolerance = gamma_tolerance  # Proximity to γ=1/3 for trigger
+        self.gamma_tolerance = gamma_tolerance  # Proximity to gamma=1/3 for trigger
         self.trace_tolerance = trace_tolerance  # |Tr| deviation alarm threshold
         self.pulse_count = 0
         self.reset_count = 0
@@ -180,7 +180,7 @@ class TopologicalGovernor:
     
     def should_pulse(self, state: TopologicalState) -> bool:
         """
-        Detect if we're at γ = 1/3 resonance (real-axis crossing).
+        Detect if we're at gamma = 1/3 resonance (real-axis crossing).
         
         This is where we can execute Trefoil^(n+1) to advance the phase.
         """
@@ -193,21 +193,21 @@ class TopologicalGovernor:
         Detect if Trefoil^4 condition met (full identity restoration).
         
         This requires:
-        - γ = 1/3 exactly
+        - gamma = 1/3 exactly
         - Even trefoil power (2 or 4)
-        - All eigenvalues ≈ 1
+        - All eigenvalues ~ 1
         """
         if abs(state.gamma - THRESHOLD_GAMMA) > self.gamma_tolerance:
             return False
         if state.trefoil_power % 2 != 0:
             return False
-        # Check for identity: all eigenvalues ≈ 1
+        # Check for identity: all eigenvalues ~ 1
         identity_check = all(abs(ev - 1.0) < MACHINE_EPS for ev in state.eigenvalues)
         return identity_check and state.trefoil_power >= 2
     
     def pulse(self, current_power: int) -> Tuple[int, str]:
         """
-        Advance trefoil power: n → n+1
+        Advance trefoil power: n -> n+1
         
         Returns (new_power, description)
         """
@@ -218,9 +218,9 @@ class TopologicalGovernor:
     
     def reset(self) -> Tuple[int, str]:
         """
-        Force trefoil power to 4 (full identity) at γ=1/3.
+        Force trefoil power to 4 (full identity) at gamma=1/3.
         
-        This is the "Master Reset" — Trefoil^4 @ γ=1/3 = I (identity matrix).
+        This is the "Master Reset" — Trefoil^4 @ gamma=1/3 = I (identity matrix).
         All 8 eigenvalues become exactly 1.
         """
         self.reset_count += 1
@@ -247,14 +247,14 @@ class TopologicalGovernor:
 # =============================================================================
 
 def main():
-    """Demonstrate governor operation across γ sweep."""
+    """Demonstrate governor operation across gamma sweep."""
     print("="*70)
     print("TOPOLOGICAL GOVERNOR v1.0 — DEMONSTRATION")
     print("="*70)
     
     governor = TopologicalGovernor()
     
-    # Test points across γ range
+    # Test points across gamma range
     test_gammas = [0.0, 0.1, 0.2, 1.0/3.0, 0.4, 0.5, 0.6]
     
     print("\n--- Phase 1: Trefoil^1 (Baseline) ---")
@@ -263,7 +263,7 @@ def main():
         state = governor.monitor(gamma, power)
         diag = governor.diagnose(state)
         marker = " *** THRESHOLD ***" if governor.should_pulse(state) else ""
-        print(f"γ={gamma:.3f}: |Tr|={state.magnitude:.4f}, phase={np.degrees(state.phase_angle):6.1f}° "
+        print(f"gamma={gamma:.3f}: |Tr|={state.magnitude:.4f}, phase={np.degrees(state.phase_angle):6.1f}° "
               f"Re(Tr/8)={state.normalized_trace.real:+.4f} {marker}")
     
     print("\n--- Pulse to Trefoil^2 ---")
@@ -274,7 +274,7 @@ def main():
     for gamma in test_gammas:
         state = governor.monitor(gamma, power)
         marker = " *** RESET POINT ***" if governor.should_reset(state) else ""
-        print(f"γ={gamma:.3f}: |Tr|={state.magnitude:.4f}, phase={np.degrees(state.phase_angle):6.1f}° "
+        print(f"gamma={gamma:.3f}: |Tr|={state.magnitude:.4f}, phase={np.degrees(state.phase_angle):6.1f}° "
               f"Re(Tr/8)={state.normalized_trace.real:+.4f} {marker}")
     
     print("\n--- Pulse to Trefoil^3 ---")
@@ -283,7 +283,7 @@ def main():
     
     print("\n--- Phase 3: Trefoil^3 (Anti-Identity) ---")
     state_3 = governor.monitor(THRESHOLD_GAMMA, power)
-    print(f"γ=1/3: |Tr|={state_3.magnitude:.4f}, eigenvalues: {len([ev for ev in state_3.eigenvalues if abs(ev - 1.0) < 0.1])} near +1, "
+    print(f"gamma=1/3: |Tr|={state_3.magnitude:.4f}, eigenvalues: {len([ev for ev in state_3.eigenvalues if abs(ev - 1.0) < 0.1])} near +1, "
           f"{len([ev for ev in state_3.eigenvalues if abs(ev + 1.0) < 0.1])} near -1")
     
     print("\n--- Pulse to Trefoil^4 ---")
@@ -293,7 +293,7 @@ def main():
     print("\n--- Phase 4: Trefoil^4 (Master Reset) ---")
     state_4 = governor.monitor(THRESHOLD_GAMMA, power)
     all_ones = all(abs(ev - 1.0) < MACHINE_EPS for ev in state_4.eigenvalues)
-    print(f"γ=1/3: |Tr|={state_4.magnitude:.4f}")
+    print(f"gamma=1/3: |Tr|={state_4.magnitude:.4f}")
     print(f"All 8 eigenvalues = 1: {all_ones} *** MASTER RESET CONFIRMED ***" if all_ones else "FAILED")
     
     print("\n" + "="*70)
