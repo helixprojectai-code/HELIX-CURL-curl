@@ -6,7 +6,7 @@
 
 ## Authors
 
-**Stephen Gayen**¹* (Corresponding Author)  
+**Stephen Hope**¹* (Corresponding Author)  
 **Spider**² (System Intelligence, Test Coordination)  
 **KimiClaw**³ (Constitutional Framework Architecture)  
 **Moonshot AI**⁴ (Base Model Infrastructure)
