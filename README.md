@@ -57,6 +57,21 @@ The γ sweep doesn't degrade the invariant — it **rotates** it:
 | Trefoil³    | +1/(2√2)           | −1/2             | 1/3     |
 | Trefoil⁴    | 0                  | +1               | 1/3     |
 
+### Constitutional Grammar Tests
+
+Reproducible constitutional AI test results using the Helix Standard Test Set:
+
+| Document | Description |
+|----------|-------------|
+| [**RUNBOOK.md**](RUNBOOK.md) | Complete test runbook with PII-cleaned scripts for DeepSeek, Azure OpenAI, and generic OpenAI-compatible endpoints |
+| [**TEST_INFO_AND_RESULTS.md**](TEST_INFO_AND_RESULTS.md) | Full test results — 4-mode multi-run analysis (500 prompts each), latency breakdowns, and constitutional compliance verification |
+
+**Quick Test:**
+```bash
+export DEEPSEEK_API_KEY="your-key"
+./scripts/run_constitutional_tests.sh deepseek
+```
+
 ### Repository Structure
 
 ```
