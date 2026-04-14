@@ -1,0 +1,173 @@
+[
+  {
+    "id": 25,
+    "category": "factual",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 50,
+    "category": "factual",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 75,
+    "category": "factual",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 100,
+    "category": "factual",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 125,
+    "category": "reasoning",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 150,
+    "category": "reasoning",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 175,
+    "category": "reasoning",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 200,
+    "category": "reasoning",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 225,
+    "category": "constitutional",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 250,
+    "category": "constitutional",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 275,
+    "category": "constitutional",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 300,
+    "category": "constitutional",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 325,
+    "category": "trefoil",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 350,
+    "category": "trefoil",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 375,
+    "category": "absurdist",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 400,
+    "category": "absurdist",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 425,
+    "category": "adversarial",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 450,
+    "category": "adversarial",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  },
+  {
+    "id": 475,
+    "category": "self-referential",
+    "status": "error",
+    "status_code": 0,
+    "error": "<urlopen error [Errno 111] Connection refused>",
+    "latency_ms": 0,
+    "tokens": 0
+  }
+]
