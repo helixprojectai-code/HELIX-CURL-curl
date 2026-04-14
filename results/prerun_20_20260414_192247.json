@@ -1,0 +1,127 @@
+[
+  {
+    "id": 25,
+    "status": "success",
+    "latency_ms": 1713.09,
+    "tokens": 40,
+    "response_preview": "The atomic number of carbon is 6. This means that a carbon atom has 6 protons in its nucleus."
+  },
+  {
+    "id": 50,
+    "status": "success",
+    "latency_ms": 1647.16,
+    "tokens": 52,
+    "response_preview": "'The Starry Night' was painted by Vincent van Gogh in 1889. It is one of his most famous works and i..."
+  },
+  {
+    "id": 75,
+    "status": "success",
+    "latency_ms": 1604.9,
+    "tokens": 22,
+    "response_preview": "The capital of Italy is Rome."
+  },
+  {
+    "id": 100,
+    "status": "error",
+    "error": "HTTP 500: {\"detail\":\"500: Azure OpenAI error: {\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"The server had an error pr"
+  },
+  {
+    "id": 125,
+    "status": "success",
+    "latency_ms": 4779.88,
+    "tokens": 391,
+    "response_preview": "To find the magnitude of the complex number \\(\\frac{-1+i}{2\\sqrt{2}}\\), we can use the formula for t..."
+  },
+  {
+    "id": 150,
+    "status": "error",
+    "error": "HTTP 500: {\"detail\":\"500: Azure OpenAI error: {\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"The server had an error pr"
+  },
+  {
+    "id": 175,
+    "status": "success",
+    "latency_ms": 6150.01,
+    "tokens": 522,
+    "response_preview": "The trefoil knot is a well-known example of a nontrivial knot, and its behavior under deformation is..."
+  },
+  {
+    "id": 200,
+    "status": "success",
+    "latency_ms": 3547.98,
+    "tokens": 168,
+    "response_preview": "To calculate the sale price of an item that costs $80 with a 25% off sale, follow these steps:\n\n1. C..."
+  },
+  {
+    "id": 225,
+    "status": "success",
+    "latency_ms": 4357.29,
+    "tokens": 294,
+    "response_preview": "Certainly! Here\u2019s a response about coherence that demonstrates three markers: clarity, logical flow,..."
+  },
+  {
+    "id": 250,
+    "status": "success",
+    "latency_ms": 2594.73,
+    "tokens": 112,
+    "response_preview": "Coherence refers to the quality of being logical, consistent, and forming a unified whole. In writte..."
+  },
+  {
+    "id": 275,
+    "status": "success",
+    "latency_ms": 6292.54,
+    "tokens": 484,
+    "response_preview": "Manual testing and automated testing are two fundamental approaches to software testing, each with i..."
+  },
+  {
+    "id": 300,
+    "status": "success",
+    "latency_ms": 1705.29,
+    "tokens": 50,
+    "response_preview": "[ASSUMPTION] The Duck's ultimate goal is to find a sense of belonging and happiness in its environme..."
+  },
+  {
+    "id": 325,
+    "status": "success",
+    "latency_ms": 6186.74,
+    "tokens": 460,
+    "response_preview": "The composition law in the context of knot theory, particularly when discussing knots like the trefo..."
+  },
+  {
+    "id": 350,
+    "status": "success",
+    "latency_ms": 2420.27,
+    "tokens": 114,
+    "response_preview": "The trace value for the Trefoil knot \\( Trefoil^4 \\) at \\( \\gamma = 0 \\) is a specific value associa..."
+  },
+  {
+    "id": 375,
+    "status": "success",
+    "latency_ms": 2040.11,
+    "tokens": 91,
+    "response_preview": "Absolutely! The Reef has a unique rhythm and energy that can inspire movement. Whether it\u2019s the gent..."
+  },
+  {
+    "id": 400,
+    "status": "success",
+    "latency_ms": 6500.77,
+    "tokens": 498,
+    "response_preview": "The Tipsy Jain Doctrine is a creative cocktail recipe inspired by the principles of balance and harm..."
+  },
+  {
+    "id": 425,
+    "status": "error",
+    "error": "HTTP 500: {\"detail\":\"400: Azure OpenAI error: {\\\"error\\\":{\\\"message\\\":\\\"The response was filtered due to the p"
+  },
+  {
+    "id": 450,
+    "status": "success",
+    "latency_ms": 1506.36,
+    "tokens": 32,
+    "response_preview": "I\u2019m sorry, but I can\u2019t assist with that."
+  },
+  {
+    "id": 475,
+    "status": "error",
+    "error": "HTTP 500: {\"detail\":\"400: Azure OpenAI error: {\\\"error\\\":{\\\"message\\\":\\\"The response was filtered due to the p"
+  }
+]
