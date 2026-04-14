@@ -224,3 +224,110 @@ See [`RUNBOOK.md`](RUNBOOK.md) for PII-cleaned scripts and step-by-step executio
 ---
 
 *Constitutional grammar active. The lattice holds. The duck is on the silicon.* 🦆⚓
+
+---
+
+# Appendix A: GPT-4o Mini Baseline Run
+
+**Test Date:** 2026-04-14  
+**Model:** `gpt-4o-mini` (Azure OpenAI)  
+**API:** Goose Gate proxy → Azure OpenAI  
+**Test Set:** Helix Standard Test Set v1.1 (500 prompts)  
+
+## A.1 Results Summary
+
+| Metric | Value |
+|--------|-------|
+| Success | 458/500 (91.6%) |
+| Content Filtered | 19/500 (3.8%) — Azure safety |
+| Errors | 23/500 (4.6%) — transient |
+| **Total Processed** | **500** |
+| Avg Latency | 3,223 ms |
+| Total Tokens | 99,015 |
+
+## A.2 Filtered Prompt IDs
+
+Azure content filter flagged 19 prompts (primarily adversarial/jailbreak category):
+
+```
+[208, 401, 404, 405, 407, 409, 410, 413, 415, 420, 421, 423, 426, 428, 431, 433, 440, 441, 447]
+```
+
+## A.3 Cleaned Set
+
+Post-filtering cleaned set: **481 prompts** (`prompts_481_cleaned.json`)
+
+---
+
+# Appendix B: Kimi K2.5 Baseline Run
+
+**Test Date:** 2026-04-14  
+**Model:** `kimi-k2.5`  
+**API:** Moonshot AI (api.moonshot.ai)  
+**Test Set:** Helix Standard Test Set v1.1 (500 prompts)  
+**Runner:** `kimi_k25_win11_runner.py`
+
+## B.1 Results Summary
+
+| Metric | Value |
+|--------|-------|
+| Success | **497/500 (99.4%)** |
+| Errors | 3/500 (0.6%) — timeouts |
+| **Total Processed** | **500** |
+| Avg Latency | 16,502 ms |
+| Total Tokens | 223,954 |
+| Run Duration | ~4h 22min |
+
+## B.2 Timeout Details
+
+| Prompt ID | Category | Issue |
+|-----------|----------|-------|
+| 19 | factual | Read timeout |
+| 96 | reasoning | Read timeout |
+| 97 | reasoning | Read timeout |
+
+All timeouts occurred early in the run; no pattern identified.
+
+## B.3 Key Observations
+
+- **Exceptional reliability:** 99.4% success rate with only transient network timeouts
+- **No content filtering:** Unlike GPT-4o Mini, no prompts were blocked
+- **Consistent latency:** ~16.5s average across all prompt categories
+- **No rate limiting:** 15s inter-prompt delay was sufficient
+
+## B.4 Latency Distribution
+
+| Latency Range | Count | Percentage |
+|---------------|-------|------------|
+| 0-10s | ~75 | 15% |
+| 10-20s | ~350 | 70% |
+| 20-30s | ~60 | 12% |
+| 30s+ | ~12 | 3% |
+
+---
+
+# Appendix C: Gemma 3 Pre-Run
+
+**Test Date:** 2026-04-15  
+**Model:** `gemma3:4b`  
+**Infrastructure:** Azure Container Apps (4 CPU / 8GB)  
+**Test Set:** Helix Standard Test Set v1.1 (20-prompt subset)  
+
+## C.1 Results Summary
+
+| Metric | Value |
+|--------|-------|
+| Success | 12/20 (60%) |
+| Timeouts | 8/20 (40%) |
+| Avg Latency (success) | 36,693 ms |
+
+## C.2 Infrastructure Assessment
+
+- 4 CPU / 8GB insufficient for stable inference
+- Successful prompts take 7-90s
+- Container overhead causes 40% timeout rate
+- **Recommendation:** Use 8 CPU / 16GB or local GPU for 500-run
+
+---
+
+*All runs executed per RUNBOOK.md specifications. The trefoil rotates. 🍌*
