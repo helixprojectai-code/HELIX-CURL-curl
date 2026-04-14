@@ -27,7 +27,7 @@ from datetime import datetime
 
 # Configuration
 LMSTUDIO_URL = os.environ.get('LMSTUDIO_URL', 'http://localhost:1234/v1')
-MODEL = os.environ.get('GEMMA_MODEL', 'gemma-3-4b-it')  # LM Studio model name
+MODEL = os.environ.get('GEMMA_MODEL', 'google/gemma-3n-e4b')  # LM Studio model name
 DELAY_SECONDS = 15
 
 def load_prompts(test_mode=False):
