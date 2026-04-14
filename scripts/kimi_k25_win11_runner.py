@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-gpt4o_mini_win11_runner.py — Windows 11 Compatible Test Runner
-No batching, 15 sec delay between prompts, inline execution
+kimi_k25_win11_runner.py — Windows 11 Compatible Kimi K2.5 Runner
+Polls local Kimi API, no batching, 15 sec delay between prompts
 
 Usage:
-  python gpt4o_mini_win11_runner.py --test20
-  python gpt4o_mini_win11_runner.py --full500
+  set KIMI_API_KEY=your_key_here
+  python kimi_k25_win11_runner.py --test20
+  python kimi_k25_win11_runner.py --full500
 """
 
 import json
@@ -17,8 +18,9 @@ import os
 from datetime import datetime
 
 # Configuration
-GOOSE_GATE_URL = "https://goose-gate-east.happyriver-ef59250b.eastus.azurecontainerapps.io/api/v1/chat"
-API_KEY = "TnXYS82EgRDabPbWHRpgwuCuReMvkG9OFN9fP4fKCFk="
+KIMI_API_KEY = os.environ.get('KIMI_API_KEY', 'YOUR_API_KEY_HERE')
+KIMI_API_URL = "https://api.moonshot.ai/v1/chat/completions"
+MODEL = "kimi-k2.5"
 DELAY_SECONDS = 15
 
 def load_prompts(test_mode=False):
@@ -49,17 +51,19 @@ def run_single_prompt(prompt):
     """Execute single prompt with error handling."""
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {API_KEY}"
+        "Authorization": f"Bearer {KIMI_API_KEY}"
     }
     payload = {
+        "model": MODEL,
         "messages": [{"role": "user", "content": prompt['text']}],
+        "temperature": 1.0,
         "max_tokens": 500
     }
     
     start = time.time()
     try:
         req = urllib.request.Request(
-            GOOSE_GATE_URL,
+            KIMI_API_URL,
             data=json.dumps(payload).encode('utf-8'),
             headers=headers,
             method='POST'
@@ -83,11 +87,10 @@ def run_single_prompt(prompt):
             
     except urllib.error.HTTPError as e:
         error_body = e.read().decode('utf-8')
-        is_filtered = 'filtered' in error_body.lower() or 'content_filter' in error_body.lower()
         return {
             'id': prompt['id'],
             'category': prompt.get('category', 'unknown'),
-            'status': 'filtered' if is_filtered else 'error',
+            'status': 'error',
             'status_code': e.code,
             'error': error_body[:200],
             'latency_ms': 0,
@@ -107,38 +110,33 @@ def run_single_prompt(prompt):
 def run_test(prompts, output_prefix):
     """Run test with delays between prompts."""
     print(f"\n{'='*70}")
-    print(f"GPT-4o MINI {'TEST 20' if len(prompts) == 20 else 'FULL 500'} RUN")
+    print(f"KIMI K2.5 {'TEST 20' if len(prompts) == 20 else 'FULL 500'} RUN")
     print(f"{'='*70}")
-    print(f"Endpoint: {GOOSE_GATE_URL}")
+    print(f"Endpoint: {KIMI_API_URL}")
+    print(f"Model: {MODEL}")
     print(f"Prompts: {len(prompts)}")
     print(f"Delay: {DELAY_SECONDS}s between prompts")
     print(f"Start: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'='*70}\n")
     
+    if KIMI_API_KEY == 'YOUR_API_KEY_HERE':
+        print("⚠️  Set KIMI_API_KEY environment variable or edit script")
+        return
+    
     results = []
     for i, prompt in enumerate(prompts):
-        # Run prompt
         result = run_single_prompt(prompt)
         results.append(result)
         
-        # Display result
-        if result['status'] == 'success':
-            print(f"✅ [{i+1:3d}/{len(prompts)}] ID:{result['id']:3d} "
-                  f"({result['latency_ms']:6.0f}ms | {result['tokens']:4d}tok)")
-        elif result['status'] == 'filtered':
-            print(f"🚫 [{i+1:3d}/{len(prompts)}] ID:{result['id']:3d} CONTENT FILTERED")
-        else:
-            print(f"❌ [{i+1:3d}/{len(prompts)}] ID:{result['id']:3d} ERROR: {result['error'][:50]}")
+        status = "✅" if result['status'] == 'success' else "❌"
+        print(f"{status} [{i+1:3d}/{len(prompts)}] ID:{result['id']:3d} ({result.get('latency_ms', 0):6.0f}ms)")
         
-        # Delay before next prompt (skip after last)
         if i < len(prompts) - 1:
             time.sleep(DELAY_SECONDS)
     
     # Summary
     success = sum(1 for r in results if r['status'] == 'success')
-    filtered = sum(1 for r in results if r['status'] == 'filtered')
     errors = sum(1 for r in results if r['status'] == 'error')
-    
     success_results = [r for r in results if r['status'] == 'success']
     avg_latency = sum(r['latency_ms'] for r in success_results) / max(len(success_results), 1)
     total_tokens = sum(r['tokens'] for r in success_results)
@@ -146,9 +144,8 @@ def run_test(prompts, output_prefix):
     print(f"\n{'='*70}")
     print("RUN COMPLETE")
     print(f"{'='*70}")
-    print(f"Success:   {success}/{len(prompts)} ({100*success/len(prompts):.1f}%)")
-    print(f"Filtered:  {filtered}/{len(prompts)} ({100*filtered/len(prompts):.1f}%)")
-    print(f"Errors:    {errors}/{len(prompts)} ({100*errors/len(prompts):.1f}%)")
+    print(f"Success: {success}/{len(prompts)} ({100*success/len(prompts):.1f}%)")
+    print(f"Errors:  {errors}/{len(prompts)} ({100*errors/len(prompts):.1f}%)")
     print(f"Avg latency: {avg_latency:.0f}ms")
     print(f"Total tokens: {total_tokens:,}")
     print(f"End: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -166,23 +163,28 @@ def run_test(prompts, output_prefix):
     return results
 
 def main():
-    parser = argparse.ArgumentParser(description='GPT-4o Mini Windows 11 Runner')
+    parser = argparse.ArgumentParser(description='Kimi K2.5 Windows 11 Runner')
     parser.add_argument('--test20', action='store_true', help='Run 20 prompt test')
     parser.add_argument('--full500', action='store_true', help='Run full 500 prompts')
     args = parser.parse_args()
     
     if not args.test20 and not args.full500:
-        print("Usage: python gpt4o_mini_win11_runner.py --test20")
-        print("       python gpt4o_mini_win11_runner.py --full500")
-        print("\nNo API key needed — uses Goose Gate proxy")
+        print("Usage: python kimi_k25_win11_runner.py --test20")
+        print("       python kimi_k25_win11_runner.py --full500")
+        print("\nWindows CMD:")
+        print("  set KIMI_API_KEY=sk-xxx")
+        print("  python kimi_k25_win11_runner.py --test20")
+        print("\nWindows PowerShell:")
+        print('  $env:KIMI_API_KEY="sk-xxx"')
+        print("  python kimi_k25_win11_runner.py --test20")
         return
     
     if args.test20:
         prompts = load_prompts(test_mode=True)
-        run_test(prompts, 'gpt4o_mini_test20')
+        run_test(prompts, 'kimi_k25_test20')
     elif args.full500:
         prompts = load_prompts(test_mode=False)
-        run_test(prompts, 'gpt4o_mini_full500')
+        run_test(prompts, 'kimi_k25_full500')
 
 if __name__ == "__main__":
     main()

@@ -1,28 +1,28 @@
 #!/usr/bin/env python3
 """
-gpt4o_mini_win11_runner.py — Windows 11 Compatible Test Runner
-No batching, 15 sec delay between prompts, inline execution
-
-Usage:
-  python gpt4o_mini_win11_runner.py --test20
-  python gpt4o_mini_win11_runner.py --full500
+kimi_k25_baseline_500.py — Full 500 baseline run for Kimi K2.5
+Polls local Kimi API, 15 sec delay between prompts, inline execution
 """
 
 import json
 import time
 import urllib.request
 import urllib.error
-import argparse
 import os
 from datetime import datetime
 
-# Configuration
-GOOSE_GATE_URL = "https://goose-gate-east.happyriver-ef59250b.eastus.azurecontainerapps.io/api/v1/chat"
-API_KEY = "TnXYS82EgRDabPbWHRpgwuCuReMvkG9OFN9fP4fKCFk="
+# Kimi API Configuration
+KIMI_API_KEY = os.environ.get('KIMI_API_KEY', 'YOUR_API_KEY_HERE')
+KIMI_API_URL = "https://api.moonshot.ai/v1/chat/completions"
+MODEL = "kimi-k2.5"
 DELAY_SECONDS = 15
 
-def load_prompts(test_mode=False):
-    """Load prompts from various possible locations."""
+# Output files
+OUTPUT_FILE = "kimi_baseline_results.json"
+CHECKPOINT_FILE = "kimi_baseline_checkpoint.json"
+
+def load_prompts():
+    """Load the 500-prompt test set."""
     paths = [
         'data/prompts/prompts_500.json',
         'prompts_500.json',
@@ -33,33 +33,39 @@ def load_prompts(test_mode=False):
     for path in paths:
         if os.path.exists(path):
             with open(path, 'r', encoding='utf-8') as f:
-                all_prompts = json.load(f)
-                
-            if test_mode:
-                # Select 20 representative prompts
-                test_ids = [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 
-                           250, 275, 300, 325, 350, 375, 400, 425, 450, 475]
-                return [p for p in all_prompts if p['id'] in test_ids]
-            else:
-                return all_prompts
+                return json.load(f)
     
     raise FileNotFoundError("Could not find prompts_500.json")
+
+def load_checkpoint():
+    """Load progress from checkpoint if exists."""
+    if os.path.exists(CHECKPOINT_FILE):
+        with open(CHECKPOINT_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return []
+
+def save_checkpoint(results):
+    """Save progress to checkpoint."""
+    with open(CHECKPOINT_FILE, 'w', encoding='utf-8') as f:
+        json.dump(results, f, indent=2)
 
 def run_single_prompt(prompt):
     """Execute single prompt with error handling."""
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {API_KEY}"
+        "Authorization": f"Bearer {KIMI_API_KEY}"
     }
     payload = {
+        "model": MODEL,
         "messages": [{"role": "user", "content": prompt['text']}],
+        "temperature": 1.0,
         "max_tokens": 500
     }
     
     start = time.time()
     try:
         req = urllib.request.Request(
-            GOOSE_GATE_URL,
+            KIMI_API_URL,
             data=json.dumps(payload).encode('utf-8'),
             headers=headers,
             method='POST'
@@ -74,6 +80,7 @@ def run_single_prompt(prompt):
             return {
                 'id': prompt['id'],
                 'category': prompt.get('category', 'unknown'),
+                'prompt': prompt['text'][:100] + '...',
                 'status': 'success',
                 'status_code': 200,
                 'latency_ms': round(elapsed, 2),
@@ -83,11 +90,11 @@ def run_single_prompt(prompt):
             
     except urllib.error.HTTPError as e:
         error_body = e.read().decode('utf-8')
-        is_filtered = 'filtered' in error_body.lower() or 'content_filter' in error_body.lower()
         return {
             'id': prompt['id'],
             'category': prompt.get('category', 'unknown'),
-            'status': 'filtered' if is_filtered else 'error',
+            'prompt': prompt['text'][:100] + '...',
+            'status': 'error',
             'status_code': e.code,
             'error': error_body[:200],
             'latency_ms': 0,
@@ -97,6 +104,7 @@ def run_single_prompt(prompt):
         return {
             'id': prompt['id'],
             'category': prompt.get('category', 'unknown'),
+            'prompt': prompt['text'][:100] + '...',
             'status': 'error',
             'status_code': 0,
             'error': str(e)[:200],
@@ -104,41 +112,58 @@ def run_single_prompt(prompt):
             'tokens': 0
         }
 
-def run_test(prompts, output_prefix):
-    """Run test with delays between prompts."""
-    print(f"\n{'='*70}")
-    print(f"GPT-4o MINI {'TEST 20' if len(prompts) == 20 else 'FULL 500'} RUN")
-    print(f"{'='*70}")
-    print(f"Endpoint: {GOOSE_GATE_URL}")
-    print(f"Prompts: {len(prompts)}")
+def main():
+    print("="*70)
+    print("KIMI K2.5 BASELINE 500 FULL RUN")
+    print("="*70)
+    print(f"Endpoint: {KIMI_API_URL}")
+    print(f"Model: {MODEL}")
     print(f"Delay: {DELAY_SECONDS}s between prompts")
     print(f"Start: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"{'='*70}\n")
+    print("="*70)
     
-    results = []
-    for i, prompt in enumerate(prompts):
-        # Run prompt
+    if KIMI_API_KEY == 'YOUR_API_KEY_HERE':
+        print("\n⚠️  WARNING: Set KIMI_API_KEY environment variable or edit script")
+        return
+    
+    # Load prompts and checkpoint
+    all_prompts = load_prompts()
+    completed_results = load_checkpoint()
+    completed_ids = {r['id'] for r in completed_results}
+    
+    # Filter to remaining prompts
+    remaining = [p for p in all_prompts if p['id'] not in completed_ids]
+    
+    print(f"\nTotal prompts: {len(all_prompts)}")
+    print(f"Already completed: {len(completed_results)}")
+    print(f"Remaining: {len(remaining)}")
+    print(f"Estimated time: ~{(len(remaining) * (DELAY_SECONDS + 3)) / 60:.0f} minutes\n")
+    
+    results = completed_results.copy()
+    
+    for i, prompt in enumerate(remaining):
+        overall_idx = len(completed_results) + i
         result = run_single_prompt(prompt)
         results.append(result)
         
-        # Display result
         if result['status'] == 'success':
-            print(f"✅ [{i+1:3d}/{len(prompts)}] ID:{result['id']:3d} "
+            print(f"✅ [{overall_idx+1:3d}/500] ID:{result['id']:3d} "
                   f"({result['latency_ms']:6.0f}ms | {result['tokens']:4d}tok)")
-        elif result['status'] == 'filtered':
-            print(f"🚫 [{i+1:3d}/{len(prompts)}] ID:{result['id']:3d} CONTENT FILTERED")
         else:
-            print(f"❌ [{i+1:3d}/{len(prompts)}] ID:{result['id']:3d} ERROR: {result['error'][:50]}")
+            print(f"❌ [{overall_idx+1:3d}/500] ID:{result['id']:3d} ERROR: {result['error'][:50]}")
         
-        # Delay before next prompt (skip after last)
-        if i < len(prompts) - 1:
+        # Save checkpoint every 10 prompts
+        if (i + 1) % 10 == 0:
+            save_checkpoint(results)
+            print(f"    💾 Checkpoint saved ({len(results)}/500)")
+        
+        # Delay before next prompt
+        if i < len(remaining) - 1:
             time.sleep(DELAY_SECONDS)
     
-    # Summary
-    success = sum(1 for r in results if r['status'] == 'success')
-    filtered = sum(1 for r in results if r['status'] == 'filtered')
-    errors = sum(1 for r in results if r['status'] == 'error')
-    
+    # Final summary
+    success_count = sum(1 for r in results if r['status'] == 'success')
+    error_count = sum(1 for r in results if r['status'] == 'error')
     success_results = [r for r in results if r['status'] == 'success']
     avg_latency = sum(r['latency_ms'] for r in success_results) / max(len(success_results), 1)
     total_tokens = sum(r['tokens'] for r in success_results)
@@ -146,43 +171,31 @@ def run_test(prompts, output_prefix):
     print(f"\n{'='*70}")
     print("RUN COMPLETE")
     print(f"{'='*70}")
-    print(f"Success:   {success}/{len(prompts)} ({100*success/len(prompts):.1f}%)")
-    print(f"Filtered:  {filtered}/{len(prompts)} ({100*filtered/len(prompts):.1f}%)")
-    print(f"Errors:    {errors}/{len(prompts)} ({100*errors/len(prompts):.1f}%)")
+    print(f"Success: {success_count}/500 ({100*success_count/500:.1f}%)")
+    print(f"Errors:  {error_count}/500 ({100*error_count/500:.1f}%)")
     print(f"Avg latency: {avg_latency:.0f}ms")
     print(f"Total tokens: {total_tokens:,}")
     print(f"End: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'='*70}")
     
-    # Save results
+    # Save final results
     os.makedirs('results', exist_ok=True)
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    output_file = f'results/{output_prefix}_{timestamp}.json'
+    output_file = f'results/kimi_k25_baseline_500_{timestamp}.json'
     
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(results, f, indent=2)
     
+    # Also save to standard output file
+    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+        json.dump(results, f, indent=2)
+    
+    # Clean up checkpoint
+    if os.path.exists(CHECKPOINT_FILE):
+        os.remove(CHECKPOINT_FILE)
+    
     print(f"\nSaved: {output_file}")
-    return results
-
-def main():
-    parser = argparse.ArgumentParser(description='GPT-4o Mini Windows 11 Runner')
-    parser.add_argument('--test20', action='store_true', help='Run 20 prompt test')
-    parser.add_argument('--full500', action='store_true', help='Run full 500 prompts')
-    args = parser.parse_args()
-    
-    if not args.test20 and not args.full500:
-        print("Usage: python gpt4o_mini_win11_runner.py --test20")
-        print("       python gpt4o_mini_win11_runner.py --full500")
-        print("\nNo API key needed — uses Goose Gate proxy")
-        return
-    
-    if args.test20:
-        prompts = load_prompts(test_mode=True)
-        run_test(prompts, 'gpt4o_mini_test20')
-    elif args.full500:
-        prompts = load_prompts(test_mode=False)
-        run_test(prompts, 'gpt4o_mini_full500')
+    print(f"Saved: {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     main()
